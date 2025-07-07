@@ -1,15 +1,4 @@
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 export const metadata = {
   title: "Create Next App",
@@ -19,10 +8,36 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body>
         {children}
+        <svg
+          style={{ position: "absolute", width: 0, height: 0 }}
+          aria-hidden="true"
+          focusable="false"
+        >
+          <filter
+            id="lensFilter"
+            x="0%"
+            y="0%"
+            width="100%"
+            height="100%"
+            filterUnits="objectBoundingBox"
+          >
+            <feComponentTransfer in="SourceAlpha" result="alpha">
+              <feFuncA type="identity" />
+            </feComponentTransfer>
+
+            <feGaussianBlur in="alpha" stdDeviation="200" result="blur" />
+
+            <feDisplacementMap
+              in="SourceGraphic"
+              in2="blur"
+              scale="50"
+              xChannelSelector="A"
+              yChannelSelector="A"
+            />
+          </filter>
+        </svg>
       </body>
     </html>
   );
