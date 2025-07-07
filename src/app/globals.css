@@ -34,13 +34,18 @@ body {
   color: var(--foreground);
   font-family: sans-serif;
   -webkit-font-smoothing: antialiased;
+  margin: 0;
 }
 
 button {
   font-size: 13px;
+  cursor: crosshair;
 }
 
-.glass-filter {
-  backdrop-filter: blur(3px);
-  filter: url(#lensFilter) brightness(1.1);
+.backdrop {
+  backdrop-filter: blur(6px);
+}
+
+* {
+  outline: 1px solid red;
 }

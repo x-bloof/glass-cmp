@@ -8,37 +8,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body>
-        {children}
-        <svg
-          style={{ position: "absolute", width: 0, height: 0 }}
-          aria-hidden="true"
-          focusable="false"
-        >
-          <filter
-            id="lensFilter"
-            x="0%"
-            y="0%"
-            width="100%"
-            height="100%"
-            filterUnits="objectBoundingBox"
-          >
-            <feComponentTransfer in="SourceAlpha" result="alpha">
-              <feFuncA type="identity" />
-            </feComponentTransfer>
-
-            <feGaussianBlur in="alpha" stdDeviation="200" result="blur" />
-
-            <feDisplacementMap
-              in="SourceGraphic"
-              in2="blur"
-              scale="50"
-              xChannelSelector="A"
-              yChannelSelector="A"
-            />
-          </filter>
-        </svg>
-      </body>
+      <body>{children}</body>
     </html>
   );
 }

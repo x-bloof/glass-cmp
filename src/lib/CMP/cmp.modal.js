@@ -1,19 +1,32 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import ConsentFields from "@/lib/CMP/consent.fields";
 import CmpContainer from "@/lib/CMP/cmp.container";
 
-export default function CMP() {
-  const [theme, setTheme] = useState("light");
+export default function CMP({ onClose }) {
   const [view, setView] = useState("default");
+  const [closing, setClosing] = useState(false);
+
+  const closeModal = () => setClosing(true);
 
   useEffect(() => {
-    document.documentElement.classList.toggle("dark", theme === "dark");
-  }, [theme]);
+    if (!closing) return;
+    const timeout = setTimeout(() => {
+      onClose();
+    }, 700);
+    return () => clearTimeout(timeout);
+  }, [closing, onClose]);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/35">
+    <div
+      className={`
+        fixed inset-0 z-10 flex items-center justify-center
+        bg-black/25 backdrop
+        transition-opacity duration-700 ease-in-out
+        ${closing ? "opacity-0" : "opacity-100"}
+      `}
+    >
       {view === "default" && (
         <CmpContainer>
           <p className="text-xl mb-4 font-light">Bienvenue</p>
@@ -39,18 +52,10 @@ export default function CMP() {
 
             <button
               id="accept"
+              onClick={closeModal}
               className="w-[180px] py-1 rounded bg-gradient-to-b from-gray-300 to-gray-50 text-[#1b1b1b] shadow-inner ring-1 ring-black/5"
             >
               Accepter
-            </button>
-            {/*dev*/}
-            <button
-              className="w-[120px] py-1 rounded bg-gradient-to-b from-gray-300 to-gray-50 text-[#1b1b1b] shadow-inner ring-1 ring-black/5"
-              onClick={() =>
-                setTheme((t) => (t === "light" ? "dark" : "light"))
-              }
-            >
-              theme
             </button>
           </div>
         </CmpContainer>
@@ -78,6 +83,7 @@ export default function CMP() {
             </button>
             <button
               id="accept"
+              onClick={closeModal}
               className="w-[180px] py-1 rounded bg-gradient-to-b from-gray-300 to-gray-100 text-[#1b1b1b] shadow-inner ring-1 ring-black/5"
             >
               Tout accepter
