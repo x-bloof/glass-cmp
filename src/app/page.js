@@ -3,13 +3,13 @@ import { createPortal } from "react-dom";
 import { useRef, useEffect, useState } from "react";
 import CMP from "@/lib/CMP/cmp.modal";
 import BgVideo from "@/components/bg/bgVideo";
-import BgSection from "@/components/bg/bgSection";
-import CmpMenuOpen from "@/lib/CMP/cmp.ctxMenuOpen";
+import CmpMenuOpen from "@/lib/CMP/cmp.openCtxMenu";
 import CmpCtxMenu from "@/lib/CMP/cmp.ctxMenu";
+//import BgSection from "@/components/bg/bgSection";
 
 export default function Page() {
+  const [showCtxMenu, setShowCtxMenu] = useState(false);
   const [mounted, setMounted] = useState(false);
-  const [showQuickMenu, setShowQuickMenu] = useState(false);
   const [showCMP, setShowCMP] = useState(true);
   const containerRef = useRef(null);
 
@@ -26,21 +26,33 @@ export default function Page() {
 
   return (
     <>
-      <main className="w-screen h-screen flex-col flex items-center justify-center">
+      <main className="w-screen h-auto flex-col flex items-center justify-center">
         {<BgVideo src="hero-optimized.mp4"></BgVideo>}
-
-        <CmpMenuOpen
-          onClick={() => {
-            alert("ok");
-          }}
-        />
-        <CmpCtxMenu />
 
         {mounted &&
           containerRef.current &&
           showCMP &&
           createPortal(
             <CMP onClose={() => setShowCMP(false)} />,
+            containerRef.current
+          )}
+
+        {mounted &&
+          containerRef.current &&
+          createPortal(
+            <CmpMenuOpen
+              onClick={() => {
+                setShowCtxMenu(true);
+              }}
+            />,
+            containerRef.current
+          )}
+
+        {showCtxMenu &&
+          mounted &&
+          containerRef.current &&
+          createPortal(
+            <CmpCtxMenu onClose={() => setShowCtxMenu(false)} />,
             containerRef.current
           )}
       </main>

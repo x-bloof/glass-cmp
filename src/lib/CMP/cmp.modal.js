@@ -22,7 +22,7 @@ export default function CMP({ onClose }) {
     <div
       className={`
         fixed inset-0 z-10 flex items-center justify-center
-        bg-black/25 backdrop
+        backdrop
         transition-opacity duration-700 ease-in-out
         ${closing ? "opacity-0" : "opacity-100"}
       `}
@@ -36,6 +36,22 @@ export default function CMP({ onClose }) {
             accepter, refuser ou personnaliser vos préférences à tout moment.
             Votre consentement est conservé pendant 6 mois, conformément au
             RGPD.
+          </p>
+
+          <p className="text-sm text-white">
+            À tout moment, vous pouvez modifier vos préférences en appuyant sur
+            l'icône
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="18"
+              fill="rgba(255,255,255,0.75)"
+              className="z-20 inline mx-1 align-baseline"
+              viewBox="0 0 16 16"
+            >
+              <path d="M4.5 9a3.5 3.5 0 1 0 0 7h7a3.5 3.5 0 1 0 0-7zm7 6a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5m-7-14a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5m2.45 0A3.5 3.5 0 0 1 8 3.5 3.5 3.5 0 0 1 6.95 6h4.55a2.5 2.5 0 0 0 0-5zM4.5 0h7a3.5 3.5 0 1 1 0 7h-7a3.5 3.5 0 1 1 0-7" />
+            </svg>
+            en bas à droite de l'écran.
           </p>
 
           <div className="flex gap-4 mt-4">

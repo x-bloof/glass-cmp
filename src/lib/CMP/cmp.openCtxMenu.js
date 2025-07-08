@@ -2,7 +2,7 @@
 
 export default function CmpMenuOpen({ onClick }) {
   return (
-    <div className="absolute z-20 flex items-center justify-center right-0 bottom-0 m-2 w-[40px] h-[40px] rounded-[8px] overflow-hidden backdrop">
+    <div className="fixed z-20 flex items-center justify-center right-0 bottom-0 m-2 w-[40px] h-[40px] rounded-[8px] overflow-hidden backdrop">
       <div className="absolute inset-0 bg-white/25 z-0 pointer-events-auto" />
 
       <div

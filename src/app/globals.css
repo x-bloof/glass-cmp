@@ -43,9 +43,14 @@ button {
 }
 
 .backdrop {
-  backdrop-filter: blur(6px);
+  backdrop-filter: blur(8px);
+}
+
+.border-glass {
+  box-shadow: inset 1px 1px 0 rgba(255, 255, 255, 0.2),
+    inset 0 0 2px rgba(255, 255, 255, 0.2);
 }
 
 * {
-  outline: 1px solid red;
+  outline: 0px solid red;
 }
