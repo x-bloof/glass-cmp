@@ -1,36 +1,27 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import ConsentFields from "@/lib/CMP/consent.fields";
 import CmpContainer from "@/lib/CMP/cmp.container";
+import { useOverlays } from "@/lib/CMP/cmp.overlaysCtx";
+import { useState } from "react";
 
-export default function CMP({ onClose }) {
+export default function CMP() {
   const [view, setView] = useState("default");
-  const [closing, setClosing] = useState(false);
-
-  const closeModal = () => setClosing(true);
-
-  useEffect(() => {
-    if (!closing) return;
-    const timeout = setTimeout(() => {
-      onClose();
-    }, 700);
-    return () => clearTimeout(timeout);
-  }, [closing, onClose]);
-
+  const { reset, resetAll } = useOverlays();
   return (
     <div
       className={`
-        fixed inset-0 z-10 flex items-center justify-center
+        fixed inset-0 z-10 
+        flex items-center justify-center
         backdrop
-        transition-opacity duration-700 ease-in-out
-        ${closing ? "opacity-0" : "opacity-100"}
+        transition-opacity duration-500 ease-in-out
+        ${reset ? "opacity-0" : "opacity-100"}
       `}
     >
       {view === "default" && (
         <CmpContainer>
           <p className="text-xl mb-4 font-light">Bienvenue</p>
-          <p className="text-sm text-white">
+          <p>
             Ce site utilise des cookies pour améliorer votre expérience, mesurer
             l’audience et afficher des contenus personnalisés. Vous pouvez
             accepter, refuser ou personnaliser vos préférences à tout moment.
@@ -38,38 +29,56 @@ export default function CMP({ onClose }) {
             RGPD.
           </p>
 
-          <p className="text-sm text-white">
-            À tout moment, vous pouvez modifier vos préférences en appuyant sur
+          <small>
+            À tout moment, modifiez vos préférences en appuyant sur
             l'icône
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="18"
               height="18"
               fill="rgba(255,255,255,0.75)"
-              className="z-20 inline mx-1 align-baseline"
+              className="z-20 inline mx-2 align-baseline"
               viewBox="0 0 16 16"
             >
               <path d="M4.5 9a3.5 3.5 0 1 0 0 7h7a3.5 3.5 0 1 0 0-7zm7 6a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5m-7-14a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5m2.45 0A3.5 3.5 0 0 1 8 3.5 3.5 3.5 0 0 1 6.95 6h4.55a2.5 2.5 0 0 0 0-5zM4.5 0h7a3.5 3.5 0 1 1 0 7h-7a3.5 3.5 0 1 1 0-7" />
             </svg>
             en bas à droite de l'écran.
-          </p>
+          </small>
 
-          <div className="flex gap-4 mt-4">
-            <button className="w-[120px] py-1 rounded bg-transparent text-gray-400 shadow-inner ring-1 ring-white/5">
+          <div className="flex flex-col md:flex-row gap-4 mt-4">
+            <button className="
+                      w-[120px]
+                      py-1 rounded
+                      bg-transparent 
+                      text-gray-400 
+                      shadow-inner ring-1 ring-white/5">
               Refuser
             </button>
             <button
               id="personnalize"
               onClick={() => setView("personnalize")}
-              className="w-[180px] py-1 rounded bg-transparent text-gray-200 shadow-inner ring-1 ring-white/5"
+              className="
+                w-[180px] 
+                py-1 
+                rounded 
+                bg-transparent 
+                text-gray-100 
+                shadow-inner 
+                ring-1 ring-white/5"
             >
               Personnaliser mes choix
             </button>
 
             <button
               id="accept"
-              onClick={closeModal}
-              className="w-[180px] py-1 rounded bg-gradient-to-b from-gray-300 to-gray-50 text-[#1b1b1b] shadow-inner ring-1 ring-black/5"
+              onClick={resetAll}
+              className="
+                w-[180px]
+                py-1 
+                rounded
+                bg-gradient-to-b from-gray-300 to-gray-50 
+                text-[#1b1b1b]
+                shadow-inner ring-1 ring-black/5"
             >
               Accepter
             </button>
@@ -82,25 +91,41 @@ export default function CMP({ onClose }) {
 
           <ConsentFields />
 
-          <div className="flex gap-4 mt-8">
+          <div className="flex flex-col md:flex-row gap-4 mt-4">
             <button
               id=""
               onClick={() => setView("default")}
-              className="w-[120px] 
+              className="
+                w-[120px] 
                 py-1 
                 rounded 
-                bg-transparent text-gray-400 
+                bg-transparent 
+                text-gray-400 
                 shadow-inner ring-1 ring-white/5"
             >
               Retour
             </button>
-            <button className="w-[180px] py-1 rounded bg-gradient-to-b from-gray-300 to-gray-100 text-[#1b1b1b] shadow-inner ring-1 ring-black/5">
+            <button  className="
+                        w-[180px] 
+                        py-1 
+                        rounded 
+                        bg-transparent 
+                        text-gray-100 
+                        shadow-inner 
+                        ring-1 ring-white/5"
+                >
               Confirmer mes choix
             </button>
             <button
               id="accept"
-              onClick={closeModal}
-              className="w-[180px] py-1 rounded bg-gradient-to-b from-gray-300 to-gray-100 text-[#1b1b1b] shadow-inner ring-1 ring-black/5"
+              onClick={resetAll}
+              className="
+                w-[180px]
+                py-1
+                rounded
+                bg-gradient-to-b from-gray-300 to-gray-100
+                text-[#1b1b1b]
+                shadow-inner ring-1 ring-black/5"
             >
               Tout accepter
             </button>

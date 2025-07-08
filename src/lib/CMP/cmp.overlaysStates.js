@@ -22,7 +22,9 @@ const useOverlaysStates = () => {
   });
 
   const setOverlay = (mode) => {
-    for (k in overlayManager) overlayManager[k](k === mode);
+    for (let k in overlayManager) {
+      overlayManager[k](k === mode);
+    }
   };
 
   const resetAll = () => {
@@ -33,7 +35,7 @@ const useOverlaysStates = () => {
   useEffect(() => {
     if (!reset) return;
 
-    const timeout = setTimeout(() => resetAll(), 700);
+    const timeout = setTimeout(() => resetAll(), 500);
     return () => clearTimeout(timeout);
   }, [reset]);
 

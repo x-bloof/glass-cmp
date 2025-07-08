@@ -1,16 +1,16 @@
 "use client";
+
 import { createPortal } from "react-dom";
 import { useRef, useEffect, useState } from "react";
 import CMP from "@/lib/CMP/cmp.modal";
 import BgVideo from "@/components/bg/bgVideo";
-import CmpMenuOpen from "@/lib/CMP/cmp.openCtxMenu";
+import CmpMenuOpen from "@/lib/CMP/cmp.triggerCtxMenu";
 import CmpCtxMenu from "@/lib/CMP/cmp.ctxMenu";
-//import BgSection from "@/components/bg/bgSection";
+import { useOverlays } from "@/lib/CMP/cmp.overlaysCtx";
 
 export default function Page() {
-  const [showCtxMenu, setShowCtxMenu] = useState(false);
+  const { showCMP, showCtxMenu, setOverlay, overlayModes } = useOverlays();
   const [mounted, setMounted] = useState(false);
-  const [showCMP, setShowCMP] = useState(true);
   const containerRef = useRef(null);
 
   useEffect(() => {
@@ -25,37 +25,30 @@ export default function Page() {
   }, []);
 
   return (
-    <>
-      <main className="w-screen h-auto flex-col flex items-center justify-center">
-        {<BgVideo src="hero-optimized.mp4"></BgVideo>}
+    <main className="w-screen h-auto flex-col flex items-center justify-center">
+      <BgVideo src="hero-optimized.mp4" />
 
-        {mounted &&
-          containerRef.current &&
-          showCMP &&
-          createPortal(
-            <CMP onClose={() => setShowCMP(false)} />,
-            containerRef.current
-          )}
+      {mounted && containerRef.current && (
+        <>
+          {showCMP &&
+            createPortal(
+              <CMP onClose={() => setOverlay(overlayModes.none)} />,
+              containerRef.current
+            )}
 
-        {mounted &&
-          containerRef.current &&
-          createPortal(
-            <CmpMenuOpen
-              onClick={() => {
-                setShowCtxMenu(true);
-              }}
-            />,
-            containerRef.current
-          )}
+          {mounted &&
+            containerRef.current &&
+            !showCMP &&
+            !showCtxMenu &&
+            createPortal(<CmpMenuOpen />, containerRef.current)}
 
-        {showCtxMenu &&
-          mounted &&
-          containerRef.current &&
-          createPortal(
-            <CmpCtxMenu onClose={() => setShowCtxMenu(false)} />,
-            containerRef.current
-          )}
-      </main>
-    </>
+          {showCtxMenu &&
+            createPortal(
+              <CmpCtxMenu onClose={() => setOverlay(overlayModes.none)} />,
+              containerRef.current
+            )}
+        </>
+      )}
+    </main>
   );
 }
